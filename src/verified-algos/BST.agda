@@ -2,8 +2,9 @@
 
 {-
 Based on Software Foundations Vol 3 : Verified Functional Algoriths
-Chapter 8 SearchTree
+by Andrew W. Appel
 
+Chapter 8  Binary Search Trees (SearchTree)
 https://softwarefoundations.cis.upenn.edu/current/vfa-current/SearchTree.html
 -}
 
@@ -28,7 +29,7 @@ n >ᵇ m = m <ᵇ n
 -- TODO move to module parameter or another argument
 Key = ℕ
 
--- binary search tree
+-- binary search tree (values in the nodes)
 ---------------------
 data Tree (V : Set) : Set where
   emptyTree : Tree V

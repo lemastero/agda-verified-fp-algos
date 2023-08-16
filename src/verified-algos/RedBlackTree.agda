@@ -5,12 +5,11 @@ Based on Software Foundations vol 3 Verified Alorithms
 by Andrew W. Appel
 https://softwarefoundations.cis.upenn.edu/vfa-current/index.html
 
-Chapter 11
-
+Chapter 11  Red-Black Trees (Redblack)
 https://softwarefoundations.cis.upenn.edu/current/vfa-current/Redblack.html
 -}
 
-module RedBlackTree where
+module verified-algos.RedBlackTree where
 
 open import Data.Bool using (Bool; true; false; if_then_else_)
 open import Data.Nat using (ℕ; _<ᵇ_)

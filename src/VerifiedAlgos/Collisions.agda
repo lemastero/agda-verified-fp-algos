@@ -5,7 +5,7 @@ Based on Software Foundations Vol 3 : Verified Functional Algoriths
 by Andrew W. Appel
 
 Chapter 12  Number Representations and Efficient Lookup Tables (Trie)
-https://softwarefoundations.cis.upenn.edu/current/vfa-current/Maps.html
+https://softwarefoundations.cis.upenn.edu/current/vfa-current/Trie.html
 -}
 
 module VerifiedAlgos.Collisions where

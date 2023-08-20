@@ -5,7 +5,7 @@ Based on Software Foundations Vol 3 : Verified Functional Algoriths
 by Andrew W. Appel
 
 Chapter 12  Number Representations and Efficient Lookup Tables (Trie)
-https://softwarefoundations.cis.upenn.edu/current/vfa-current/Maps.html
+https://softwarefoundations.cis.upenn.edu/current/vfa-current/Trie.html
 
 Coq standard library: https://github.com/coq/coq/blob/master/theories/PArith/BinPosDef.v
 -}
@@ -15,8 +15,10 @@ module VerifiedAlgos.Positive where
 open import Data.Bool using (Bool; true; false; if_then_else_)
 open import Data.Nat using (ℕ; suc; _+_; _*_)
 open import Data.Nat.Properties using (+-identityʳ; +-suc)
-open import Relation.Binary.PropositionalEquality using (_≡_; refl; sym)
+open import Relation.Binary.PropositionalEquality using (_≡_; refl; sym; cong; _≢_; ≢-sym)
 open import Data.List using (List; _∷_; []; [_]; _++_)
+open import Relation.Nullary.Decidable using (Dec; yes; no)
+open import Relation.Nullary.Negation using (¬_; contraposition)
 
 data Pos : Set where
   P1n : Pos → Pos -- 1 + 2*n
@@ -78,6 +80,7 @@ _+P_ : Pos → Pos → Pos
 x +P y = addPosLoop false x y
 
 {-
+-- TODO
 addPosLoopCorrect : ∀ (c : Bool) (p q : Pos) → pos2nat (addPosLoop c p q) ≡
   (if c then 1 else 0) + (pos2nat p) + (pos2nat q)
 addPosLoopCorrect = ?
@@ -95,13 +98,51 @@ p2x-1 P1      = P1
 _*2P : Pos → Pos
 p *2P = P0n p
 
+-- TODO
 -- n*2≡n+n : ∀ (n : Pos) → n *2P ≡ n +P n
 -- n*2≡n+n (P1n n) = {!   !}
 -- n*2≡n+n (P0n n) = {!   !}
 -- n*2≡n+n P1 = {!   !}
 
+-- TODO
 -- predPos : Pos → Pos
 -- predPos p = {!   !}
+
+¬P1≡P1n-x : ∀  {x : Pos} → ¬ P1 ≡ P1n x
+¬P1≡P1n-x = \ ()
+
+¬P1≡P0n-x : ∀  {x : Pos} → ¬ P1 ≡ P0n x
+¬P1≡P0n-x = \ ()
+
+¬P1n≡P0n : ∀ {x y : Pos} → ¬ P1n x ≡ P0n y
+¬P1n≡P0n = \ ()
+
+P0extensionality : ∀ {x y : Pos} → (P0n x) ≡ (P0n y) → x ≡ y
+P0extensionality refl = refl
+
+P1extensionality : ∀ {x y : Pos} → (P1n x) ≡ (P1n y) → x ≡ y
+P1extensionality refl = refl
+
+P1≢ext : ∀ {x y : Pos} → x ≢ y → (P1n x) ≢ (P1n y)
+P1≢ext x≢y = contraposition P1extensionality x≢y
+
+P0≢ext : ∀ {x y : Pos} → x ≢ y → (P0n x) ≢ (P0n y)
+P0≢ext x≢y = contraposition P0extensionality x≢y
+
+_≡P?_ : ∀ (x y : Pos) → Dec (x ≡ y)
+P1    ≡P? P1    = yes refl
+P1    ≡P? P1n y = no ¬P1≡P1n-x
+P1n x ≡P? P1    = no (≢-sym ¬P1≡P1n-x)
+P1    ≡P? P0n y = no ¬P1≡P0n-x
+P0n x ≡P? P1    = no (≢-sym ¬P1≡P0n-x)
+P1n x ≡P? P0n y = no ¬P1n≡P0n
+P0n x ≡P? P1n y = no (≢-sym ¬P1n≡P0n)
+P1n x ≡P? P1n y with x ≡P? y
+... | yes x≡y = yes (cong P1n x≡y)
+... | no ¬x≡y = no (P1≢ext ¬x≡y)
+P0n x ≡P? P0n y with x ≡P? y
+... | yes x≡y = yes (cong P0n x≡y)
+... | no ¬x≡y = no (P0≢ext ¬x≡y)
 
 data Comparison : Set where
   Eq : Comparison

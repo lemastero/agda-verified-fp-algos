@@ -9,7 +9,7 @@ Chapter 11  Red-Black Trees (Redblack)
 https://softwarefoundations.cis.upenn.edu/current/vfa-current/Redblack.html
 -}
 
-module verified-algos.RedBlackTree where
+module VerifiedAlgos.RedBlackTree where
 
 open import Data.Bool using (Bool; true; false; if_then_else_)
 open import Data.Nat using (ℕ; _<ᵇ_)

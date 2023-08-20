@@ -8,7 +8,7 @@ Chapter 8  Binary Search Trees (SearchTree)
 https://softwarefoundations.cis.upenn.edu/current/vfa-current/SearchTree.html
 -}
 
-module verified-algos.BST where
+module VerifiedAlgos.BST where
 
 open import Data.Bool using (Bool; true; false; if_then_else_)
 open import Data.Nat using (ℕ; _<ᵇ_)
